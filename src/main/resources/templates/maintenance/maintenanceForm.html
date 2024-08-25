@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${maintenance.id == null} ? 'Create Maintenance' : 'Edit Maintenance'"></title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title"
+                th:text="${maintenance.id == null} ? 'Create new maintenance' : 'Edit maintenance'"></h3>
+        </div>
+        <div class="card-body pb-5">
+            <form th:action="@{${maintenance.id == null} ? '/maintenance/create' : '/maintenance/edit/' + ${maintenance.id} }"
+                  method="post">
+                <div class="form-group">
+                    <label for="roomId">Room:</label>
+                    <select name="roomId" class="form-control" id="roomId" required>
+                        <option th:each="room : ${rooms}"
+                                th:value="${room.id}"
+                                th:selected="${room.id == maintenance?.room?.id}"
+                                th:text="${room.roomNumber}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea name="description" class="form-control" id="description" rows="3"
+                              placeholder="Enter a description..." required
+                              th:text="${maintenance?.description}"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" name="date" class="form-control" id="date"
+                           th:value="${formattedDate}" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select name="status" class="form-control" id="status" required>
+                        <option th:each="status : ${T(mk.ukim.studentdormsapp.model.enumeration.MaintenanceStatus).values()}"
+                                th:value="${status?.name()}"
+                                th:text="${status?.name()}"
+                                th:selected="${status == maintenance?.status}"></option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="submit" class="btn btn-success"
+                            th:text="${maintenance.id == null} ? 'Create' : 'Update'"></button>
+                    <a th:href="@{/maintenance}" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

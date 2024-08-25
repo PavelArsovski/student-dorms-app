@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Maintenance Details - ' + ${maintenance.id}"></title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">Maintenance Details</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Room Number:</dt>
+                <dd class="col-sm-9" th:text="${maintenance.room.roomNumber}"></dd>
+
+                <dt class="col-sm-3">Description:</dt>
+                <dd class="col-sm-9" th:text="${maintenance.description}"></dd>
+
+                <dt class="col-sm-3">Date:</dt>
+                <dd class="col-sm-9" th:text="${formattedDate}"></dd>
+
+                <dt class="col-sm-3">Status:</dt>
+                <dd class="col-sm-9" th:text="${maintenance.status}"></dd>
+            </dl>
+
+            <div class="mt-3">
+                <a th:href="@{/maintenance/edit/{id}(id=${maintenance.id})}" class="btn btn-primary" sec:authorize="hasRole('ADMIN')">Edit</a>
+                <form th:action="@{/maintenance/delete/{id}(id=${maintenance.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" sec:authorize="hasRole('ADMIN')">Delete</button>
+                </form>
+                <a th:href="@{/maintenance}" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Dorm Details</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .card-custom {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-body {
+            text-align: center;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .btn-group .btn {
+            margin: 0 5px;
+        }
+        .btn-group form {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h5 class="text-center mb-4">Dormitory Details:</h5>
+    <div class="card card-custom mb-4">
+        <img class="card-img-top" th:src="@{${dorm.imageUrl}}" alt="Dormitory Image">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${dorm.name}">Dormitory Name</h5>
+            <p class="card-text"><strong>Address:</strong> <span th:text="${dorm.address}">Dormitory Address</span></p>
+            <p class="card-text"><strong>Freshman Capacity:</strong> <span th:text="${dorm.freshmanCapacity}">0</span></p>
+            <p class="card-text"><strong>Total Capacity:</strong> <span th:text="${dorm.totalCapacity}">0</span></p>
+            <div class="btn-group" role="group">
+                <a th:href="@{/dorms/edit/{id}(id=${dorm.id})}" class="btn btn-primary" sec:authorize="hasRole('ADMIN')">Edit</a>
+                <form th:action="@{/dorms/delete/{id}(id=${dorm.id})}" method="post">
+                    <button type="submit" class="btn btn-danger" sec:authorize="hasRole('ADMIN')">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

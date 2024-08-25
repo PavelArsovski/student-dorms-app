@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Dorms</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">Skopje's Student Dormitories</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4" th:each="dorm : ${dorms}">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="card-title" th:text="${dorm.name}">Dormitory Name</h4>
+                </div>
+                <img class="card-img-top" th:src="@{${dorm.imageUrl}}" alt="Dorm Image"
+                     style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text"><strong>Address:</strong> <span th:text="${dorm.address}">Dormitory Address</span></p>
+                    <p class="card-text"><strong>Freshman Capacity:</strong> <span th:text="${dorm.freshmanCapacity}">0</span></p>
+                    <p class="card-text"><strong>Total Capacity:</strong> <span th:text="${dorm.totalCapacity}">0</span></p>
+                </div>
+                <div class="card-footer text-center">
+                    <a th:href="@{/dorms/{id}(id=${dorm.id})}" class="btn btn-info">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/dorms/create" class="btn btn-success" sec:authorize="hasRole('ADMIN')">Create Dormitory</a>
+    </div>
+</div>
+</body>
+</html>

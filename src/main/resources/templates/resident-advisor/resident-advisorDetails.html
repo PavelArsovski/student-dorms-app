@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Resident Advisor Details</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">Resident Advisor Details</h3>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> <span th:text="${residentAdvisor.name}"></span></p>
+                    <p><strong>Surname:</strong> <span th:text="${residentAdvisor.surname}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${residentAdvisor.email}"></span></p>
+                    <p><strong>Dormitory:</strong> <span th:text="${residentAdvisor.assignedDorm.name}"></span></p>
+                </div>
+            </div>
+            <div class="text-left mt-3">
+                <a th:href="@{/resident-advisors/edit/{id}(id=${residentAdvisor.id})}" class="btn btn-primary" sec:authorize="hasRole('ADMIN')">Edit</a>
+                <form th:action="@{/resident-advisors/delete/{id}(id=${residentAdvisor.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" sec:authorize="hasRole('ADMIN')">Delete</button>
+                </form>
+                <a th:href="@{/resident-advisors}" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

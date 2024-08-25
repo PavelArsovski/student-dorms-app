@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Room</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title" th:text="${room} ? 'Edit room' : 'Create new room'"></h3>
+        </div>
+        <div class="card-body">
+            <form th:action="@{ ${room != null} ? '/rooms/edit/' + ${room.id} : '/rooms/create' }" method="post">
+                <div class="form-group">
+                    <label for="roomNumber">Room Number:</label>
+                    <input type="text" name="roomNumber" class="form-control" id="roomNumber" placeholder="Enter room number" th:value="${room != null ? room.roomNumber : ''}" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="capacity">Capacity:</label>
+                    <input type="number" name="capacity" class="form-control" id="capacity" placeholder="Enter room capacity" th:value="${room != null ? room.capacity : ''}" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="dormId">Dormitory:</label>
+                    <select name="dormId" class="form-control" id="dormId" required>
+                        <option th:each="dorm : ${dorms}" th:value="${dorm.id}" th:text="${dorm?.name}" th:selected="${room != null && room.dorm.id == dorm.id}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="roomType">Room Type:</label>
+                    <select name="roomType" class="form-control" id="roomType" required>
+                        <option th:each="type : ${T(mk.ukim.studentdormsapp.model.enumeration.RoomType).values()}"
+                                th:value="${type}"
+                                th:text="${type?.getDisplayName()}"
+                                th:selected="${room != null && room.roomType == type}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="available">Availability:</label>
+                    <select name="available" class="form-control" id="available" required>
+                        <option value="true" th:selected="${room != null && room.available}">Available</option>
+                        <option value="false" th:selected="${room == null || !room.available}">Not Available</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="submit" class="btn btn-success">Confirm</button>
+                    <a th:href="@{/rooms}" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

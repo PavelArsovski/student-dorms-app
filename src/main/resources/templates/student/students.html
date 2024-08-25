@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">Students</h3>
+        </div>
+        <div class="card-body">
+            <a class="btn btn-success mb-3" th:href="@{/students/create}">Add new student</a>
+
+            <table class="table table-striped">
+                <thead>
+                <tr class="text-center">
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Faculty</th>
+                    <th>Study Year</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student : ${students}" class="text-center">
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.surname}"></td>
+                    <td th:text="${student.email}"></td>
+                    <td th:text="${student.phone}"></td>
+                    <td th:text="${student.address}"></td>
+                    <td th:text="${student.city}"></td>
+                    <td th:text="${student.faculties.displayName}"></td>
+                    <td th:text="${student.studyYear}"></td>
+                    <td class="text-center">
+                        <a th:href="@{/students/{studentId}(studentId=${student.id})}" class="btn btn-info btn-sm">View</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <nav th:if="${page != null}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+                        <a class="page-link" th:href="@{/students(page=${page.number - 1}, size=${page.size})}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}" class="page-item"
+                        th:classappend="${i == page.number} ? 'active'">
+                        <a class="page-link" th:href="@{/students(page=${i}, size=${page.size})}"
+                           th:text="${i + 1}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${page.hasNext()} ? '' : 'disabled'">
+                        <a class="page-link" th:href="@{/students(page=${page.number + 1}, size=${page.size})}"
+                           aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>

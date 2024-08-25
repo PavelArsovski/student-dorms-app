@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${booking.bookingId} ? 'Edit Booking' : 'Create Booking'"></title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title" th:text="${booking.bookingId} ? 'Edit Booking' : 'Create Booking'"></h3>
+        </div>
+        <div class="card-body">
+            <form th:action="@{${booking.bookingId != null} ? '/bookings/edit/' + ${booking.bookingId} : '/bookings/create'}" method="post">
+                <div class="form-group">
+                    <label for="student">Student:</label>
+                    <select id="student" name="studentId" class="form-control" required>
+                        <option th:each="student : ${students}" th:value="${student.id}" th:text="${student.name + ' ' + student.surname}" th:selected="${booking.student != null && booking.student.id == student.id}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="room">Room:</label>
+                    <select id="room" name="roomId" class="form-control" required>
+                        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.roomNumber + ' - ' + room.dorm.name}" th:selected="${booking.room != null && booking.room.id == room.id}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dorm">Dormitory:</label>
+                    <select id="dorm" name="dormId" class="form-control" required>
+                        <option th:each="dorm : ${dorms}" th:value="${dorm.id}" th:text="${dorm.name}" th:selected="${booking.dorm != null && booking.dorm.id == dorm.id}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookingDate">Booking Date:</label>
+                    <input type="date" id="bookingDate" name="bookingDate" class="form-control" th:value="${formattedDate}" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="availability">Availability:</label>
+                    <select id="availability" name="availability" class="form-control" required>
+                        <option value="AVAILABLE" th:selected="${booking.availability == 'AVAILABLE'}">Available</option>
+                        <option value="UNAVAILABLE" th:selected="${booking.availability == 'UNAVAILABLE'}">Unavailable</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="submit" class="btn btn-success" th:text="${booking.bookingId != null} ? 'Update' : 'Create'"></button>
+                    <a th:href="@{/bookings}" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

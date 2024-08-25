@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance Requests</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">Maintenance Requests</h3>
+        </div>
+        <div class="card-body pb-5">
+            <a th:href="@{/maintenance/create}" class="btn btn-success mb-3">Create Maintenance Request</a>
+            <table class="table table-striped text-center">
+                <thead>
+                <tr>
+                    <th scope="col">Room Number</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Description</th>
+                    <th scope="col" class="text-secondary">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="maintenance : ${maintenanceRequests}">
+                    <td th:text="${maintenance.room.roomNumber}"></td>
+                    <td th:text="${maintenance.date}"></td>
+                    <td th:text="${maintenance.status}"></td>
+                    <td th:text="${maintenance.description}"></td>
+                    <td>
+                        <a th:href="@{/maintenance/{id}(id=${maintenance.id})}" class="btn btn-info btn-sm">View</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <nav th:if="${totalPages > 1}" class="d-flex justify-content-center my-5">
+                <ul class="pagination">
+                    <li th:class="${currentPage == 0} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/maintenance(page=${currentPage - 1})}">Previous</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(startPage, endPage)}" th:class="${i == currentPage} ? 'page-item active' : 'page-item'">
+                        <a class="page-link" th:href="@{/maintenance(page=${i})}" th:text="${i}"></a>
+                    </li>
+                    <li th:class="${currentPage >= totalPages - 1} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/maintenance(page=${currentPage + 1})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>

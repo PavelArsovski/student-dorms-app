@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title th:text="${residentAdvisor.id == null ? 'Create Resident Advisor' : 'Edit Resident Advisor'}"></title>
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2 th:text="${residentAdvisor.id == null ? 'Create Resident Advisor' : 'Edit Resident Advisor'}"></h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{${residentAdvisor.id == null} ? '/resident-advisors/create' : '/resident-advisors/edit/' + ${residentAdvisor.id}}" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" th:value="${residentAdvisor.name}" required>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" class="form-control" th:value="${residentAdvisor.surname}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" th:value="${residentAdvisor.email}" required>
+                </div>
+                <div class="form-group">
+                    <label for="dorm">Dormitory</label>
+                    <select class="form-control" id="dorm" name="dormId" required>
+                        <option th:each="dorm : ${dorms}" th:value="${dorm.id}"
+                                th:selected="${dorm.id} == ${residentAdvisor.assignedDorm != null ? residentAdvisor.assignedDorm.id : -1}"
+                                th:text="${dorm.name}"></option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <a th:href="@{/resident-advisors}" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
